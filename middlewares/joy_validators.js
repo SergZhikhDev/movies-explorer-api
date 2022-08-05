@@ -5,6 +5,21 @@ const LinkJoiValidate = Joi.string().required().pattern(/^http(s|)(:|)\/\/(www.|
 const EmailJoiValidate = Joi.string().required().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'ru'] } });
 const IdJoiIdValidate = Joi.string().hex().length(24);
 
+module.exports.JoiLoginValidate = celebrate({
+  body: Joi.object().keys({
+    email: EmailJoiValidate,
+    password: JoiValidate,
+  }),
+});
+
+module.exports.JoiCreateUserValidate = celebrate({
+  body: Joi.object().keys({
+    name: JoiValidate.min(2).max(30),
+    email: EmailJoiValidate,
+    password: JoiValidate,
+  }),
+});
+
 module.exports.JoiProfileValidate = celebrate({
   body: Joi.object().keys({
     email: EmailJoiValidate,
