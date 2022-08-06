@@ -10,7 +10,7 @@ const {
 } = require('../utils/correctcodes/correctcodes');
 
 module.exports.getMovie = (req, res, next) => {
-  const owner = req.user._id;
+  const owner = req.user.id;
   Movie.find({ owner })
     .then((movies) => res.status(CORRECT_CODE).send(movies))
     .catch(next);
@@ -47,7 +47,7 @@ module.exports.createMovie = (req, res, next) => {
     nameEN,
   })
     .then((movie) => {
-      res.status(CREATE_CODE).send(movie);
+      res.status(CREATE_CODE).send(movie._id);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {

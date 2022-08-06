@@ -3,7 +3,7 @@ const { celebrate, Joi } = require('celebrate');
 const JoiValidate = Joi.string().required();
 const LinkJoiValidate = Joi.string().required().pattern(/^http(s|)(:|)\/\/(www.|)((\w+|\d+)(-|\.))+[a-z]{2,3}(\S+|)(#| +|)$/i);
 const EmailJoiValidate = Joi.string().required().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'ru'] } });
-const IdJoiIdValidate = Joi.string().hex().length(24);
+const IdJoiValidate = Joi.string().hex().length(24);
 
 module.exports.JoiLoginValidate = celebrate({
   body: Joi.object().keys({
@@ -31,7 +31,7 @@ module.exports.JoiProfileValidate = celebrate({
 
 module.exports.JoiIdValidate = celebrate({
   params: Joi.object().keys({
-    movieId: IdJoiIdValidate,
+    movieId: IdJoiValidate,
   }),
 });
 

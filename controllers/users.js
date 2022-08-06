@@ -53,15 +53,11 @@ module.exports.createUser = ((req, res, next) => {
     .hash(password, SALT_ROUNDS)
     .then((hash) => User.create({
       name,
-      about,
-      avatar,
       email: req.body.email,
       password: hash,
     }))
     .then((user) => res.status(CREATE_CODE).send({
       name: user.name,
-      about: user.about,
-      avatar: user.avatar,
       email: user.email,
     }))
     .catch((err) => {
