@@ -47,7 +47,7 @@ module.exports.createMovie = (req, res, next) => {
     nameEN,
   })
     .then((movie) => {
-      res.status(CREATE_CODE).send(movie._id);
+      res.status(CREATE_CODE).send(movie);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {

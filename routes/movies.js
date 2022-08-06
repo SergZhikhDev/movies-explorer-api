@@ -8,13 +8,13 @@ const {
 
 const {
   JoiCreateMovieValidate,
-  // JoiIdValidate,
+  JoiIdValidate,
 } = require('../middlewares/joy_validators');
 
 router.get('/', getMovie);
 
 router.post('/', JoiCreateMovieValidate, createMovie);
 
-router.delete('/:id', /* JoiIdValidate, */ deleteMovie);
+router.delete('/:id', JoiIdValidate, deleteMovie);
 
 module.exports = router;

@@ -30,7 +30,7 @@ module.exports.JoiProfileValidate = celebrate({
 });
 
 module.exports.JoiIdValidate = celebrate({
-  params: Joi.object().keys({
+  body: Joi.object().keys({
     movieId: IdJoiValidate,
   }),
 });
