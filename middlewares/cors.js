@@ -1,6 +1,8 @@
 const allowedCors = [
   'http://front-szh-dpl.students.nomorepartiesxyz.ru',
   'https://front-szh-dpl.students.nomorepartiesxyz.ru',
+  'http://www.front-szh-dpl.students.nomorepartiesxyz.ru',
+  'https://www.front-szh-dpl.students.nomorepartiesxyz.ru',
   'https://sergzhikhdev.github.io',
   'localhost:3000',
   'http://localhost:3000',

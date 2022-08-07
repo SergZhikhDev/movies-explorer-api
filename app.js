@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-// const rateLimit = require('express-rate-limit');
 
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -16,10 +15,6 @@ const { limiter } = require('./utils/rateLimiter/rateLimiter');
 const { PORT = 3000 } = process.env;
 
 const app = express();
-// const limiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // за 15 минут
-//   max: 100, // можно совершить максимум 100 запросов с одного IP
-// });
 mongoose.connect('mongodb://127.0.0.1:27017/moviesdb');
 app.use(limiter);
 app.use(cors);
