@@ -7,7 +7,7 @@ const {
 } = require('../controllers/movies');
 
 const {
-  JoiCreateMovieValidate, 
+  JoiCreateMovieValidate,
   JoiIdValidate,
 } = require('../middlewares/joy_validators');
 
