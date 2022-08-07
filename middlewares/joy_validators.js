@@ -45,7 +45,6 @@ module.exports.JoiCreateMovieValidate = celebrate({
     image: LinkJoiValidate,
     trailerLink: LinkJoiValidate,
     thumbnail: LinkJoiValidate,
-    owner: JoiValidate,
     movieId: JoiValidate,
     nameRU: JoiValidate,
     nameEN: JoiValidate,

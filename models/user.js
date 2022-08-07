@@ -27,7 +27,6 @@ const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    // default: 'Жак-Ив Кусто',
     validate: userNameValidator,
   },
 
