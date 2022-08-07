@@ -9,8 +9,11 @@ const {
   CORRECT_CODE,
 } = require('../utils/correctcodes/correctcodes');
 
+ console.log(555);
+
 module.exports.getMovie = (req, res, next) => {
   const owner = req.user.id;
+  console.log(owner);
   Movie.find({ owner })
     .then((movies) => res.status(CORRECT_CODE).send(movies))
     .catch(next);
@@ -26,7 +29,7 @@ module.exports.createMovie = (req, res, next) => {
     image,
     trailerLink,
     thumbnail,
-    owner = req.user._id,
+    owner,
     movieId,
     nameRU,
     nameEN,
