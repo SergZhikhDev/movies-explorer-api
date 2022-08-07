@@ -7,10 +7,14 @@ const NotFoundError = require('../utils/errorcodes/not-found-error');
 const NotUniqueEmailError = require('../utils/errorcodes/not-unique-email');
 const NotDataError = require('../utils/errorcodes/not-pass-or-email');
 
-const { NODE_ENV, JWT_SECRET } = process.env;
-const MONGO_DUPLICATE_ERROR_CODE = 11000;
-const SECRET_KEY = 'very_secret';
-const SALT_ROUNDS = 10;
+const {
+  NODE_ENV,
+  JWT_SECRET,
+  MONGO_DUPLICATE_ERROR_CODE,
+  SECRET_KEY,
+  SALT_ROUNDS,
+} = require('../utils/config');
+
 const {
   CORRECT_CODE,
   CREATE_CODE,
@@ -46,8 +50,7 @@ module.exports.updateProfile = (req, res, next) => {
 
 module.exports.createUser = ((req, res, next) => {
   const {
-    // eslint-disable-next-line no-unused-vars
-    name, about, avatar, email, password,
+    name, password,
   } = req.body;
   bcrypt
     .hash(password, SALT_ROUNDS)
