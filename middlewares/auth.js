@@ -1,31 +1,31 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-const SECRET_KEY = 'very_secret';
+const { ERRORS } = require('../utils/config');
 
-const throwUnauthorizedError = () => {
-  const error = new Error('Авторизуйтесь для доступа');
-  error.statusCode = 401;
-  throw error;
-};
+const NotDataError = require('../utils/errorcodes/not-pass-or-email');
+
+const {
+  secretKey,
+} = require('../utils/config');
 
 const isAuthorized = ((req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
-    throw throwUnauthorizedError();
+    throw new NotDataError(ERRORS.AUTHORIZATION_REQUIRED);
   }
   try {
-    const token = () => jwt.verify(authorization.replace('Bearer ', ''), SECRET_KEY);
+    const token = () => jwt.verify(authorization.replace('Bearer ', ''), secretKey);
     const payload = token();
     User.findOne({ id: payload._id }).then((user) => {
       if (!user) {
-        throwUnauthorizedError();
+        throw new NotDataError(ERRORS.AUTHORIZATION_REQUIRED);
       }
     });
     req.user = payload;
   } catch (err) {
-    throwUnauthorizedError();
+    throw new NotDataError(ERRORS.AUTHORIZATION_REQUIRED);
   }
 
   next();

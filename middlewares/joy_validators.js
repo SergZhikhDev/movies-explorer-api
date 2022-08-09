@@ -1,52 +1,51 @@
 const { celebrate, Joi } = require('celebrate');
 
-const JoiValidate = Joi.string().required();
+const StringJoiValidate = Joi.string().required();
+const NumberJoiValidate = Joi.number().required();
 const LinkJoiValidate = Joi.string().required().pattern(/^http(s|)(:|)\/\/(www.|)((\w+|\d+)(-|\.))+[a-z]{2,3}(\S+|)(#| +|)$/i);
 const EmailJoiValidate = Joi.string().required().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'ru'] } });
-const IdJoiValidate = Joi.string().hex().length(24);
 
 module.exports.JoiLoginValidate = celebrate({
   body: Joi.object().keys({
     email: EmailJoiValidate,
-    password: JoiValidate,
+    password: StringJoiValidate,
   }),
 });
 
 module.exports.JoiCreateUserValidate = celebrate({
   body: Joi.object().keys({
-    name: JoiValidate.min(2).max(30),
+    name: StringJoiValidate.min(2).max(30),
     email: EmailJoiValidate,
-    password: JoiValidate,
+    password: StringJoiValidate,
   }),
 });
 
 module.exports.JoiProfileValidate = celebrate({
   body: Joi.object().keys({
     email: EmailJoiValidate,
-    password: JoiValidate,
-    name: JoiValidate,
+    name: StringJoiValidate,
 
   }),
 });
 
 module.exports.JoiIdValidate = celebrate({
   body: Joi.object().keys({
-    movieId: IdJoiValidate,
+    movieId: NumberJoiValidate,
   }),
 });
 
 module.exports.JoiCreateMovieValidate = celebrate({
   body: Joi.object().keys({
-    country: JoiValidate,
-    director: JoiValidate,
-    duration: JoiValidate,
-    year: JoiValidate,
-    description: JoiValidate,
+    country: StringJoiValidate,
+    director: StringJoiValidate,
+    duration: NumberJoiValidate,
+    year: StringJoiValidate,
+    description: StringJoiValidate,
     image: LinkJoiValidate,
     trailerLink: LinkJoiValidate,
     thumbnail: LinkJoiValidate,
-    movieId: JoiValidate,
-    nameRU: JoiValidate,
-    nameEN: JoiValidate,
+    movieId: NumberJoiValidate,
+    nameRU: StringJoiValidate,
+    nameEN: StringJoiValidate,
   }),
 });

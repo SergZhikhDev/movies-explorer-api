@@ -1,5 +1,7 @@
 const Movie = require('../models/movie');
 
+const { ERRORS } = require('../utils/config');
+
 const BadRequestError = require('../utils/errorcodes/bad-request-error');
 const NotFoundError = require('../utils/errorcodes/not-found-error');
 const BadRequireToken = require('../utils/errorcodes/bad-require-token');
@@ -17,40 +19,16 @@ module.exports.getMovie = (req, res, next) => {
 };
 
 module.exports.createMovie = (req, res, next) => {
-  const {
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    thumbnail,
-    movieId,
-    nameRU,
-    nameEN,
-  } = req.body;
-
   Movie.create({
-    country,
-    director,
-    duration,
-    year,
-    description,
-    image,
-    trailerLink,
-    thumbnail,
+    ...req.body,
     owner: req.user.id,
-    movieId,
-    nameRU,
-    nameEN,
   })
     .then((movie) => {
       res.status(CREATE_CODE).send(movie);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError());
+        next(new BadRequestError(ERRORS.MOVIE.NCORRECT_DATA));
       }
       next(err);
     })
@@ -63,10 +41,10 @@ module.exports.deleteMovie = (req, res, next) => {
     .findById(movieId)
     .then((movie) => {
       if (!movie) {
-        next(new NotFoundError());
+        next(new NotFoundError(ERRORS.MOVIE.NOT_FOUND));
       }
       if (JSON.stringify(movie.owner) !== JSON.stringify(req.user.id)) {
-        throw new BadRequireToken();
+        throw new BadRequireToken(ERRORS.MOVIE.NOT_ENOUGH_RIGHTS);
       }
       return Movie.findByIdAndRemove(movieId);
     })
@@ -75,7 +53,7 @@ module.exports.deleteMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError());
+        next(new BadRequestError(ERRORS.MOVIE.INCORRECT_ID));
       }
       next(err);
     });

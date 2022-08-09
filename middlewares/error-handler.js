@@ -1,8 +1,7 @@
-// централизованный обработчик ошибок
-module.exports.errorHandler = ((err, req, res, next) => {
-  if (err.statusCode) {
-    res.status(err.statusCode).send({ message: err.message });
-  }
-  res.status(500).send({ message: 'Что-то пошло не так(сообщение центрального обработчика ошибок)' });
+module.exports.errorHandler = (err, _, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = statusCode === 500 ? err.message : err.message;
+
+  res.status(statusCode).send({ message });
   next();
-});
+};

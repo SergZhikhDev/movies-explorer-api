@@ -2,17 +2,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
+const { ERRORS } = require('../utils/config');
+
 const BadRequestError = require('../utils/errorcodes/bad-request-error');
 const NotFoundError = require('../utils/errorcodes/not-found-error');
 const NotUniqueEmailError = require('../utils/errorcodes/not-unique-email');
 const NotDataError = require('../utils/errorcodes/not-pass-or-email');
 
 const {
-  NODE_ENV,
-  JWT_SECRET,
   MONGO_DUPLICATE_ERROR_CODE,
-  SECRET_KEY,
   SALT_ROUNDS,
+  secretKey,
 } = require('../utils/config');
 
 const {
@@ -35,13 +35,13 @@ module.exports.updateProfile = (req, res, next) => {
   })
     .then((user) => {
       if (!user) {
-        throw new NotFoundError();
+        throw new NotFoundError(ERRORS.USER.NOT_FOUND);
       }
       return res.status(CORRECT_CODE).send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError());
+        next(new BadRequestError(ERRORS.USER.INCORRECT_UPDATE));
       }
       next(err);
     })
@@ -65,7 +65,7 @@ module.exports.createUser = ((req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные для запроса'));
+        next(new BadRequestError(ERRORS.USER.INCORRECT_CREATE));
       }
       if (err.code === MONGO_DUPLICATE_ERROR_CODE) {
         next(new NotUniqueEmailError());
@@ -81,9 +81,9 @@ module.exports.login = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then(([user, isPasswordCorrect]) => {
       if (!isPasswordCorrect) {
-        throw new NotDataError();
+        throw new NotDataError(ERRORS.USER.INCORRECT_AUTH);
       }
-      return jwt.sign({ id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : SECRET_KEY, { expiresIn: '7d' });
+      return jwt.sign({ id: user._id }, secretKey, { expiresIn: '7d' });
     })
     .then((token) => {
       res.send({ token });
