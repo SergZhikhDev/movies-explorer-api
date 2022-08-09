@@ -2,4 +2,4 @@
 
 Сервер находится по адресу: 
 
- https://front-szh-dpl.students.nomorepartiesxyz.rufront-szh-dpl.students.nomorepartiesxyz.ru
+ https://front-szh-dpl.students.nomorepartiesxyz.ru
