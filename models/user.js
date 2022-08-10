@@ -7,6 +7,7 @@ const {
   userEmailValidator,
   userPasswordValidator,
 } = require('../validators/validators');
+const { ERRORS } = require('../utils/config');
 
 const userSchema = new mongoose.Schema({
 
@@ -35,7 +36,7 @@ userSchema.statics.findUserByCredentials = function (email, password) {
   return this.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new NotDataError();
+        throw new NotDataError(ERRORS.USER.INCORRECT_AUTH);
       }
       return Promise.all([
         user,
