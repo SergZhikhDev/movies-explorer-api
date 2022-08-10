@@ -4,6 +4,7 @@ const StringJoiValidate = Joi.string().required();
 const NumberJoiValidate = Joi.number().required();
 const LinkJoiValidate = Joi.string().required().pattern(/^http(s|)(:|)\/\/(www.|)((\w+|\d+)(-|\.))+[a-z]{2,3}(\S+|)(#| +|)$/i);
 const EmailJoiValidate = Joi.string().required().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'ru'] } });
+const IdJoiValidate = Joi.string().hex().length(24);
 
 module.exports.JoiLoginValidate = celebrate({
   body: Joi.object().keys({
@@ -29,8 +30,8 @@ module.exports.JoiProfileValidate = celebrate({
 });
 
 module.exports.JoiIdValidate = celebrate({
-  body: Joi.object().keys({
-    movieId: NumberJoiValidate,
+  params: Joi.object().keys({
+    id: IdJoiValidate,
   }),
 });
 

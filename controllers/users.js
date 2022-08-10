@@ -43,6 +43,9 @@ module.exports.updateProfile = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new BadRequestError(ERRORS.USER.INCORRECT_UPDATE));
       }
+      if (err.code === MONGO_DUPLICATE_ERROR_CODE) {
+        next(new NotUniqueEmailError());
+      }
       next(err);
     })
     .catch(next);
